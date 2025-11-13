@@ -19,6 +19,8 @@ public class Vehiculo {
 
     @Column
     private String modelo;
+   @Column
+    private String color; 
 
     @Column
     private String patente;
@@ -38,11 +40,12 @@ public class Vehiculo {
     public Vehiculo() {}
 
     // Constructor con parámetros (sin relaciones)
-    public Vehiculo(Integer vehiculoId , boolean estado, String tipoVehículo, String modelo, String patente, Viaje viaje, Conductor conductor) {
+    public Vehiculo(Integer vehiculoId , boolean estado, String tipoVehículo, String modelo,String color, String patente, Viaje viaje, Conductor conductor) {
         this.vehiculoId = vehiculoId;
         this.estado = estado;
         this.tipoVehiculo = tipoVehículo;
         this.modelo = modelo;
+        this.color = color;  
         this.patente = patente;
         this.viaje= viaje; 
         this.conductor= conductor; 
@@ -61,6 +64,9 @@ public class Vehiculo {
 
     public String getModelo() { return modelo; }
     public void setModelo(String modelo) { this.modelo = modelo; }
+
+    public String getColor() { return color; }
+    public void setColor(String color) { this.color = color; }
 
     public String getPatente() { return patente; }
     public void setPatente(String patente) { this.patente = patente; }
