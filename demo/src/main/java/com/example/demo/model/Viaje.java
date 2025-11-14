@@ -60,14 +60,14 @@ public class Viaje {
     public boolean getEstado() { return estado; }
     public void setEstado(boolean estado) { this.estado = estado; }
 
-    public String getTipoViave() {return tipoViaje;}
+    public String getTipoViaje() {return tipoViaje;}
     public void setTipoViaje(String tipoViaje){this.tipoViaje = tipoViaje;}
 
     public double getCosto(){ return costo;}
     public void setCosto(double costo) {this.costo = costo;}
 
-    public LocalDate getFechoHora() { return fecha; }
-    public void setFechoHora(LocalDate fecha) { this.fecha = fecha;} 
+    public LocalDate getFechaDate() { return fecha; }
+    public void setFecha(LocalDate fecha) { this.fecha = fecha;} 
 
     public Vehiculo getVehiculo() { return vehiculo; }
     public void setVehiculo(Vehiculo vehiculo) { this.vehiculo = vehiculo; }

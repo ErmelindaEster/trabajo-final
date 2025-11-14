@@ -115,11 +115,11 @@ public class VehiculoController {
         model.addAttribute("vehiculo", vehiculo);
 
         // 3. Reutilizar la vista del formulario (que ya está preparada para edición)
-        return "formCliente";
+        return "formVehiculo";
     }
 
     // 7. PROCESAR ACTUALIZACIÓN (UPDATE - POST)
-    // POST /actualizarCliente/{id}
+    // POST /actualizarVehiculo/{id}
     @PostMapping("/actualizarVehiculo/{id}")
     public String actualizarVehiculo(@PathVariable("id") Integer id, @ModelAttribute Vehiculo vehiculoActualizado) {
         // 1. Establecer el ID en el objeto recibido del formulario
@@ -130,7 +130,7 @@ public class VehiculoController {
         // 2. Llamar al servicio de actualización
         Vehiculo vehiculoResultado = vehiculoService.actualizarVehiculo(id, vehiculoActualizado);
 
-        // 3. Manejo de error (si no se encontró el cliente original en el servicio)
+        // 3. Manejo de error (si no se encontró el Vehiculo original en el servicio)
         
 
         // 4. Redirigir a la lista de vehiculo o a la vista de detalle

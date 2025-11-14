@@ -62,7 +62,7 @@ public class ViajeService {
             // 2. Actualiza los campos (se asume que el ID ya está validado)
             viajeExistente.setFecha(detallesViaje.getFecha());
             viajeExistente.setTipoViaje(detallesViaje.getTipoViaje());
-            viajeExistente.setCosto(detallesViaje.getcosto());
+            viajeExistente.setCosto(detallesViaje.getCosto());
            
            
             
