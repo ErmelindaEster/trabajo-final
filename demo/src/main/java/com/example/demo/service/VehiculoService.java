@@ -62,6 +62,7 @@ public class VehiculoService {
             vehiculoExistente.setEstado(detallesVehiculo.getEstado());
             vehiculoExistente.setTipoVehiculo(detallesVehiculo.getTipoVehiculo());
             vehiculoExistente.setModelo(detallesVehiculo.getModelo());
+             vehiculoExistente.setColor(detallesVehiculo.getColor());
             vehiculoExistente.setPatente(detallesVehiculo.getPatente());
            
             
