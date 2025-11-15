@@ -91,7 +91,7 @@ public class VehiculoController {
         vehiculoService.eliminarVehiculoLogico(id);
 
         // Redirige al usuario a la lista principal después de la operación
-        return "redirect:/listarClientes";
+        return "redirect:/listarVehiculo";
     }
 
     // EDITAR VEHICULO (UPDATE) // GET /editarVehiculo/{id}

@@ -51,7 +51,7 @@ public class VehiculoService {
     // 4. ACTUALIZAR (Update)
     /**
      * Actualiza la información de un vehiculo existente.
-     * id El ID del cliente a actualizar.
+     * id El ID del vehiculo a actualizar.
      * detallesVehiculo Los nuevos datos del Vehiculo.
      *  El vehiculo actualizado o null si no se encontró.
      */
