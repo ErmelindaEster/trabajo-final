@@ -66,7 +66,7 @@ public class Viaje {
     public double getCosto(){ return costo;}
     public void setCosto(double costo) {this.costo = costo;}
 
-    public LocalDate getFechaDate() { return fecha; }
+    public LocalDate getFecha() { return fecha; }
     public void setFecha(LocalDate fecha) { this.fecha = fecha;} 
 
     public Vehiculo getVehiculo() { return vehiculo; }

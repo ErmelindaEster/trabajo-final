@@ -96,10 +96,6 @@ public class ViajeController {
 
     // EDITAR VEHICULO (UPDATE) // GET /editarVehiculo/{id}
 
-
-
-
-
     // 6. MOSTRAR FORMULARIO PARA EDITAR (UPDATE - GET)
     // GET /editarViaje/{id}
     @GetMapping("/editarViaje/{id}")

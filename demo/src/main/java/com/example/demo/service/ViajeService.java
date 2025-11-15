@@ -80,7 +80,7 @@ public class ViajeService {
      *  El ID del vehiculo a desactivar.
      *  true si la eliminación lógica fue exitosa, false si el Viaje no fue encontrado.
      */
-    public boolean eliminarViajeloLogico(Integer viajeId) {
+    public boolean eliminarViajeLogico(Integer viajeId) {
         Optional<Viaje> viajeEncontrado = viajeRepository.findById(viajeId);    
         if (viajeEncontrado.isPresent()) {
             Viaje viaje = viajeEncontrado.get();
