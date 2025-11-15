@@ -32,10 +32,10 @@ public class VehiculoController {
     @GetMapping("/listarVehiculo")
     public String listarVehiculoActivos(Model model) {
         // Obtenemos solo los vehiculo activos
-        List<Vehiculo> vehiculo = vehiculoService.obtenerTodosVehiculoActivos();
+        List<Vehiculo> vehiculos = vehiculoService.obtenerTodosVehiculoActivos();
 
         // Agregamos la lista al objeto Model para que la vista pueda acceder a ella
-        model.addAttribute("vehiculo", vehiculo);
+        model.addAttribute("vehiculos", vehiculos);
 
         // Retorna el nombre de la plantilla HTML a renderizar (ej: Thymeleaf o JSP)
         return "listaVehiculo";
@@ -47,7 +47,7 @@ public class VehiculoController {
     public String mostrarFormularioRegistroVehiculo(Model model) {
         // Agregamos un objeto Vehiculo vacío para que el formulario pueda llenarlo
         model.addAttribute("vehiculo", new Vehiculo());
-        return "formVehiculo"; // Vista HTML del formulario
+        return "formularioVehiculo"; // Vista HTML del formulario
     }
 
     // 3. Guardar nuevo vehiculo (CREATE)

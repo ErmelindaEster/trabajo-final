@@ -33,10 +33,10 @@ public class ConductorController {
     @GetMapping("/listarconductor")
     public String listarconductorActivos(Model model) {
         // Obtenemos solo los vehiculo activos
-        List<Conductor> conductor = conductorService.obtenerTodosConductorActivos();
+        List<Conductor> conductores = conductorService.obtenerTodosConductorActivos();
 
         // Agregamos la lista al objeto Model para que la vista pueda acceder a ella
-        model.addAttribute("conductor", conductor);
+        model.addAttribute("conductores", conductores);
 
         // Retorna el nombre de la plantilla HTML a renderizar (ej: Thymeleaf o JSP)
         return "listaConductor";
@@ -48,7 +48,7 @@ public class ConductorController {
     public String mostrarFormularioRegistroConductor(Model model) {
         // Agregamos un objeto conductor vacío para que el formulario pueda llenarlo
         model.addAttribute("conductor", new Conductor());
-        return "formConductor"; // Vista HTML del formulario
+        return "formularioConductor"; // Vista HTML del formulario
     }
 
     // 3. Guardar nuevo conductor (CREATE)

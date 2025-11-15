@@ -32,10 +32,10 @@ public class ViajeController {
     @GetMapping("/listarViaje")
     public String listarViajeActivos(Model model) {
         // Obtenemos solo los viaje activos
-        List<Viaje> viaje = viajeService.obtenerTodosViajeActivos();
+        List<Viaje> viajes = viajeService.obtenerTodosViajeActivos();
 
         // Agregamos la lista al objeto Model para que la vista pueda acceder a ella
-        model.addAttribute("viaje", viaje);
+        model.addAttribute("viajes", viajes);
 
         // Retorna el nombre de la plantilla HTML a renderizar (ej: Thymeleaf o JSP)
         return "listaViaje";
@@ -47,7 +47,7 @@ public class ViajeController {
     public String mostrarFormularioRegistroViaje(Model model) {
         // Agregamos un objeto Viaje vacío para que el formulario pueda llenarlo
         model.addAttribute("viaje", new Viaje());
-        return "formViaje"; // Vista HTML del formulario
+        return "formularioViaje"; // Vista HTML del formulario
     }
 
     // 3. Guardar nuevo viaje (CREATE)

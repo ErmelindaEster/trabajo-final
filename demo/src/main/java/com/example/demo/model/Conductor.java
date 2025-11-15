@@ -28,8 +28,8 @@ public class Conductor {
 
     // Relación 1:1 con Vehiculo: un conductor tienen un vehiculo.
     @OneToOne
-    @JoinColumn(name = "conductorId") 
-    private Conductor conductor;
+    @JoinColumn(name = "vehiculoId") 
+    private Vehiculo vehiculo;
 
     
 
