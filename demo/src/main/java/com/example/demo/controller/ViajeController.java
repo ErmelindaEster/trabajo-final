@@ -52,7 +52,7 @@ public class ViajeController {
 
     // 3. Guardar nuevo viaje (CREATE)
     // POST /viaje/guardar
-    @PostMapping("/guardarVije")
+    @PostMapping("/guardarViaje")
     public String guardarViaje(@ModelAttribute Viaje viaje) {
         // El servicio guarda el objeto enviado desde el formulario
         viajeService.guardarViaje(viaje);
