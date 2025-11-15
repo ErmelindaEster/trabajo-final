@@ -56,8 +56,8 @@ public class ConductorService {
      * detallesConductor Los nuevos datos del conductor.
      *  El conductor actualizado o null si no se encontró.
      */
-    public Conductor actualizarConductor(Integer conductorId, Conductor detallesconductor) {
-        // 1. Busca el Vehiculo existente
+    public Conductor actualizarConductor(Integer conductorId, Conductor detallesConductor) {
+        // 1. Busca el Conductor existente
         return conductorRepository.findById(conductorId).map(conductorExistente -> {
             // 2. Actualiza los campos (se asume que el ID ya está validado)
             conductorExistente.setEstado(detallesConductor.getEstado());
@@ -81,7 +81,7 @@ public class ConductorService {
      *  El ID del conductor a desactivar.
      *  true si la eliminación lógica fue exitosa, false si el Conductor no fue encontrado.
      */
-    public boolean eliminarConductor(Integer vehiculoId) {
+    public boolean eliminarConductorLogico(Integer conductorId) {
         Optional<Conductor> conductorEncontrado = conductorRepository.findById(conductorId);    
         if (conductorEncontrado.isPresent()) {
             Conductor conductor = conductorEncontrado.get();

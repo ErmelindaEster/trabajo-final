@@ -22,7 +22,7 @@ public class ConductorController {
     private final ConductorService conductorService;
 
     // Inyección de Dependencias por Constructor (Java 17 style)
-    public conductorController(ConductorService conductorService) {
+    public ConductorController(ConductorService conductorService) {
         this.conductorService = conductorService;
     }
 
@@ -47,16 +47,16 @@ public class ConductorController {
     @GetMapping("/nuevoconductor")
     public String mostrarFormularioRegistroConductor(Model model) {
         // Agregamos un objeto conductor vacío para que el formulario pueda llenarlo
-        model.addAttribute("conductor", new conductor());
+        model.addAttribute("conductor", new Conductor());
         return "formConductor"; // Vista HTML del formulario
     }
 
     // 3. Guardar nuevo conductor (CREATE)
     // POST /conductor/guardar
     @PostMapping("/guardarconductor")
-    public String guardarconductor(@ModelAttribute conductor conductor) {
+    public String guardarconductor(@ModelAttribute Conductor conductor) {
         // El servicio guarda el objeto enviado desde el formulario
-        conductorService.guardarconductor(conductor);
+        conductorService.guardarConductor(conductor);
 
         // Redirige al usuario a la lista principal después de guardar
         return "redirect:/listarconductor";
@@ -89,7 +89,7 @@ public class ConductorController {
     @GetMapping("/eliminarConductor/{id}")
     public String eliminarConductorLogico(@PathVariable("id") Integer id) {
 
-        conductorService.eliminarconductorLogico(id);
+        conductorService.eliminarConductorLogico(id);
 
         // Redirige al usuario a la lista principal después de la operación
         return "redirect:/listarConductor";
