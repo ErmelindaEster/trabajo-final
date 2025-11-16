@@ -2,7 +2,14 @@ package com.example.demo.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.*;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 
@@ -50,16 +57,22 @@ public class Usuario {
     // Getters y Setters
      public Integer getUsuarioId() { return usuarioId; }
     public void setUsuarioId(Integer usuarioId) { this.usuarioId = usuarioId; }
+
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
+
     public String getApellido() { return apellido; }
     public void setApellido(String apellido) { this.apellido = apellido; }
-    public String getcorreoElectronico() { return correoElectronico; }
-    public void setcorreoElectronico (String correoElectronico) { this.correoElectronico = correoElectronico; }
+
+    public String getCorreoElectronico() { return correoElectronico; }
+    public void setCorreoElectronico (String correoElectronico) { this.correoElectronico = correoElectronico; }
+
     public String getTelefono() { return telefono; }
     public void setTelefono(String telefono) { this.telefono = telefono; }
+
     public List<Viaje> getViajes() { return viajes; }
-    public void Viajes(List<Viaje> viajes) { this.viajes= viajes; }
+    public void setViajes(List<Viaje> viajes) { this.viajes= viajes; }
+
     public boolean isEstado() { return estado; }
     public void setEstado(boolean estado) { this.estado = estado; }
 }

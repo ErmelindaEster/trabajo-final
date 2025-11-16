@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Usuario;
-import com.example.demo.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.model.Usuario;
+import com.example.demo.repository.UsuarioRepository;
 
 // Indica a Spring que esta clase es un componente de servicio
 @Service
@@ -60,7 +62,7 @@ public class UsuarioService {
             // 2. Actualiza los campos (se asume que el ID ya está validado)
             usuarioExistente.setNombre(detallesUsuario.getNombre());
             usuarioExistente.setApellido(detallesUsuario.getApellido());
-            usuarioExistente.setcorreoElectronico(detallesUsuario.getcorreoElectronico());
+            usuarioExistente.setCorreoElectronico(detallesUsuario.getCorreoElectronico());
             usuarioExistente.setTelefono(detallesUsuario.getTelefono());
             
             //Optar por no actualizar el estado aquí, o dejar que la lógica de soft-delete lo maneje.

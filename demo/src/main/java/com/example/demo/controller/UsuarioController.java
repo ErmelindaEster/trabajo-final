@@ -1,15 +1,18 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Usuario;
-import com.example.demo.service.UsuarioService;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller; // CAMBIADO a @Controller
-import org.springframework.ui.Model; // IMPORTADO para pasar datos a la vista
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model; // CAMBIADO a @Controller
+import org.springframework.web.bind.annotation.GetMapping; // IMPORTADO para pasar datos a la vista
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import com.example.demo.model.Usuario;
+import com.example.demo.service.UsuarioService;
 
 @Controller
 public class UsuarioController {
@@ -27,7 +30,7 @@ public class UsuarioController {
     public String listarUsuariosActivos(Model model) {
         List<Usuario> usuarios = usuarioService.obtenerTodosUsuariosActivos();
         model.addAttribute("usuarios", usuarios);
-        return "registroUsuario";
+        return "listaUsuario";
     }
 
     // 2. MOSTRAR FORMULARIO NUEVO USUARIO
