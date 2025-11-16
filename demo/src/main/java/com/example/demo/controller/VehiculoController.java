@@ -115,7 +115,7 @@ public class VehiculoController {
         model.addAttribute("vehiculo", vehiculo);
 
         // 3. Reutilizar la vista del formulario (que ya está preparada para edición)
-        return "formVehiculo";
+        return "formularioVehiculo";
     }
 
     // 7. PROCESAR ACTUALIZACIÓN (UPDATE - POST)

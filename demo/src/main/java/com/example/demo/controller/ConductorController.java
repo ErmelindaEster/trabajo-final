@@ -53,7 +53,7 @@ public class ConductorController {
 
     // 3. Guardar nuevo conductor (CREATE)
     // POST /conductor/guardar
-    @PostMapping("/guardarconductor")
+    @PostMapping("/guardarConductor")
     public String guardarconductor(@ModelAttribute Conductor conductor) {
         // El servicio guarda el objeto enviado desde el formulario
         conductorService.guardarConductor(conductor);
@@ -64,7 +64,7 @@ public class ConductorController {
 
     // 4. VER DETALLE DEL CONDUCTOR (READ By ID) - MÁS CONCISO
     // GET /detalleConductor/{id}
-    @GetMapping("/detalleconductor/{id}")
+    @GetMapping("/detalleConductor/{id}")
     public String verDetalleconductor(@PathVariable("id") Integer id, Model model) {
 
         // Uso de orElseThrow():
@@ -76,7 +76,7 @@ public class ConductorController {
 
         Conductor conductor = conductorService.obtenerConductorPorId(id)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehiculo no encontrado con ID: " + id));
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Conductor no encontrado con ID: " + id));
         // Si el conductor fue encontrado, el código continúa aquí.
         model.addAttribute("conductor", conductor);
 
@@ -98,12 +98,9 @@ public class ConductorController {
     // EDITAR CONDUCTOR (UPDATE) // GET /editarConductor/{id}
 
 
-
-
-
     // 6. MOSTRAR FORMULARIO PARA EDITAR (UPDATE - GET)
     // GET /editarConductor/{id}
-    @GetMapping("/editarconductor/{id}")
+    @GetMapping("/editarConductor/{id}")
     public String mostrarFormularioEdicion(@PathVariable("id") Integer id, Model model) {
         // 1. Obtener el conductor por ID, lanzando 404 si no existe
     Conductor conductor = conductorService.obtenerConductorPorId(id)
@@ -116,7 +113,7 @@ public class ConductorController {
         model.addAttribute("conductor", conductor);
 
         // 3. Reutilizar la vista del formulario (que ya está preparada para edición)
-        return "formConductor";
+        return "formularioConductor";
     }
 
     // 7. PROCESAR ACTUALIZACIÓN (UPDATE - POST)

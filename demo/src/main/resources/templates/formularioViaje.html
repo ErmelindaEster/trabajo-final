@@ -26,6 +26,7 @@
 <main class="container my-5">
     <h2 class="mb-4">Registrar / Editar Viaje</h2>
 
+    <!-- ATENCIÓN: tu controller tiene error en la ruta "/guardarVije". Se deja así para que NO te falle. -->
     <form th:object="${viaje}" th:action="@{/guardarVije}" method="post" class="row g-3">
 
         <input type="hidden" th:field="*{viajeId}">
@@ -33,7 +34,7 @@
         <!-- Tipo de Viaje -->
         <div class="col-md-6">
             <label class="form-label" for="tipoViaje">Tipo de Viaje</label>
-            <select class="form-select" id="tipoViaje" th:field="*{tipoViaje}" required>
+            <select class="form-select" id="tipoViaje" th:field="*{tipoViaje}" required onchange="calcularCosto()">
                 <option value="">Seleccione...</option>
                 <option value="CORTA">Corta distancia</option>
                 <option value="MEDIA">Media distancia</option>
@@ -47,22 +48,34 @@
             <input type="date" class="form-control" id="fecha" th:field="*{fecha}" required>
         </div>
 
-        <!-- Costo -->
-        <div class="col-md-6">
-            <label class="form-label" for="costo">Costo</label>
-            <input type="number" class="form-control" id="costo" th:field="*{costo}" step="0.01" required>
-        </div>
-
         <!-- Usuario -->
         <div class="col-md-6">
             <label class="form-label" for="usuario">Usuario</label>
-            <input type="text" class="form-control" placeholder="(falta cargar combobox)" disabled>
+            <select class="form-select" id="usuario" th:field="*{usuario}" required>
+                <option value="">Seleccione un usuario...</option>
+                <option th:each="u : ${usuarios}" 
+                        th:value="${u.usuarioId}"
+                        th:text="${u.nombre + ' ' + u.apellido}">
+                </option>
+            </select>
         </div>
 
         <!-- Vehículo -->
         <div class="col-md-6">
             <label class="form-label" for="vehiculo">Vehículo</label>
-            <input type="text" class="form-control" placeholder="(falta cargar combobox)" disabled>
+            <select class="form-select" id="vehiculo" th:field="*{vehiculo}" required onchange="calcularCosto()">
+                <option value="">Seleccione un vehículo...</option>
+                <option th:each="v : ${vehiculos}" 
+                        th:value="${v.vehiculoId}"
+                        th:text="${v.modelo + ' - ' + v.tipoVehiculo}">
+                </option>
+            </select>
+        </div>
+
+        <!-- Costo (calculado automáticamente) -->
+        <div class="col-md-6">
+            <label class="form-label" for="costo">Costo ($)</label>
+            <input type="number" class="form-control" id="costo" th:field="*{costo}" readonly> <!-- leer solo, quiere decir que solo se lee y no se puede escribir -->
         </div>
 
         <div class="col-12">
@@ -80,6 +93,37 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- SCRIPT PARA CALCULAR COSTO AUTOMÁTICO -->
+<script>
+function calcularCosto() {
+    let tipoViaje = document.getElementById("tipoViaje").value;
+    let vehiculo = document.getElementById("vehiculo");
+    let selectedVehiculo = vehiculo.options[vehiculo.selectedIndex]?.text || "";
+
+    if (!tipoViaje || !selectedVehiculo) {
+        document.getElementById("costo").value = "";
+        return;
+    }
+
+    // COSTOS BASE
+    let costoBase = 0;
+    if (tipoViaje === "CORTA") costoBase = 7000;
+    if (tipoViaje === "MEDIA") costoBase = 12000;
+    if (tipoViaje === "LARGA") costoBase = 20000;
+
+    // AUMENTO SEGÚN VEHÍCULO
+    let costoTotal = costoBase;
+    if (selectedVehiculo.includes("LUXE")) {
+        costoTotal += costoBase * 0.10;
+    }
+    if (selectedVehiculo.includes("PREMIUM")) {
+        costoTotal += costoBase * 0.20;
+    }
+
+    document.getElementById("costo").value = costoTotal;
+}
+</script>
+
 </body>
 </html>
-

@@ -40,20 +40,20 @@
         </thead>
 
         <tbody>
-            <tr th:each="v : ${viajes}">
+            <tr th:each="viaje : ${viajes}">
                 <td th:text="${viaje.viajeId}"></td>
                 <td th:text="${viaje.tipoViaje}"></td>
                 <td th:text="${viaje.fecha}"></td>
                 <td th:text="${viaje.costo}"></td>
 
                 <td th:text="${viaje.usuario != null ? viaje.usuario.nombre : 'N/A'}"></td>
-                <td th:text="${viaje.vehiculo != null ? viaje.vehiculo.modelo : 'N/A'}"></td>
+                <td th:text="${viaje.vehiculo != null ? viaje.vehiculo.modelo : 'N/A'}"></td> <!--N/A no aplica, no hay -->
 
                 <td class="text-center">
                     <a th:href="@{'/detalleViaje/' + ${viaje.viajeId}}" 
                        class="btn btn-info btn-sm text-white">Ver</a>
 
-                    <a th:href="@{'/editarViaje/' + ${v.viajeId}}" 
+                    <a th:href="@{'/editarViaje/' + ${viaje.viajeId}}" 
                        class="btn btn-warning btn-sm">Editar</a>
 
                     <a th:href="@{'/eliminarViaje/' + ${viaje.viajeId}}"

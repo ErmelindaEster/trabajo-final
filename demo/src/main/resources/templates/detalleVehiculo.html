@@ -27,8 +27,8 @@
     <div class="card shadow">
         <div class="card-body">
             <h3 class="card-title h5 mb-3">
-                <span th:text="${vehiculo.tipoVehiculo}">X</span> -
-                <span th:text="${vehiculo.modelo}">Modelo</span>
+                <span th:text="${vehiculo.tipoVehiculo}"></span> -
+                <span th:text="${vehiculo.modelo}"></span>
             </h3>
 
             <dl class="row mb-0">
@@ -61,7 +61,7 @@
             <a th:href="@{'/eliminarVehiculo/' + ${vehiculo.vehiculoId}}"
                class="btn btn-danger btn-sm"
                onclick="return confirm('¿Seguro que desea eliminar este vehículo?');">
-                Eliminar
+                Eliminar   <!--mensaje de cuando se aprete el boton sale una alerta de confirmacion, si deseo o no deseo eliminar, hay que confirmar y cancelar -->
             </a>
         </div>
     </div>

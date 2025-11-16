@@ -111,7 +111,7 @@ public class ViajeController {
         model.addAttribute("viaje", viaje);
 
         // 3. Reutilizar la vista del formulario (que ya está preparada para edición)
-        return "formViaje";
+        return "formularioViaje";
     }
 
     // 7. PROCESAR ACTUALIZACIÓN (UPDATE - POST)

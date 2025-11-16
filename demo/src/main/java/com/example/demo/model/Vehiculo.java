@@ -1,17 +1,18 @@
 package com.example.demo.model;
-//import java.util.ArrayList;
-//import java.util.List;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
 
 @Entity
 public class Vehiculo {
 
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer vehiculoId; // PK
 
-      @Column
+    @Column
     private boolean estado = true;
 
     @Column
@@ -19,47 +20,46 @@ public class Vehiculo {
 
     @Column
     private String modelo;
-   @Column
-    private String color; 
+
+    @Column
+    private String color;
 
     @Column
     private String patente;
 
-    // Relación 1:N con Viaje: un vehiculo hace muchos Viajes.
-    @OneToMany
-    @JoinColumn(name = "viajeId") 
-    private Viaje viaje;
+    // Relación 1:N con Viaje (un vehículo tiene muchos viajes)
+    @OneToMany(mappedBy = "vehiculo") // esta mapeando , buscando por vehiculo, vehiculo por vehiculo
+    private List<Viaje> viajes = new ArrayList<>();
 
-    //  Relación 1:1 con conductor: Un Vehiculo tiene un Conductor (Modelo).
-    @OneToOne 
-    @JoinColumn(name = "conductorId") 
+    // Relación 1:1 con Conductor
+    @OneToOne
+    @JoinColumn(name = "conductorId")
     private Conductor conductor;
 
-
-     // Constructor Vacío
+    // Constructor vacío
     public Vehiculo() {}
 
     // Constructor con parámetros (sin relaciones)
-    public Vehiculo(Integer vehiculoId , boolean estado, String tipoVehículo, String modelo,String color, String patente, Viaje viaje, Conductor conductor) {
+    public Vehiculo(Integer vehiculoId, boolean estado, String tipoVehiculo, String modelo,
+                    String color, String patente, List<Viaje> viajes, Conductor conductor) {
         this.vehiculoId = vehiculoId;
         this.estado = estado;
-        this.tipoVehiculo = tipoVehículo;
+        this.tipoVehiculo = tipoVehiculo;
         this.modelo = modelo;
-        this.color = color;  
+        this.color = color;
         this.patente = patente;
-        this.viaje= viaje; 
-        this.conductor= conductor; 
+        this.viajes = viajes;
+        this.conductor = conductor;
     }
 
-   // Getter y  setter
-
-   public Integer getVehiculoId() { return vehiculoId; }
+    // Getters y Setters
+    public Integer getVehiculoId() { return vehiculoId; }
     public void setVehiculoId(Integer vehiculoId) { this.vehiculoId = vehiculoId; }
-    
+
     public Boolean getEstado() { return estado; }
     public void setEstado(boolean estado) { this.estado = estado; }
-    
-      public String getTipoVehiculo() { return tipoVehiculo; }
+
+    public String getTipoVehiculo() { return tipoVehiculo; }
     public void setTipoVehiculo(String tipoVehiculo) { this.tipoVehiculo = tipoVehiculo; }
 
     public String getModelo() { return modelo; }
@@ -70,11 +70,10 @@ public class Vehiculo {
 
     public String getPatente() { return patente; }
     public void setPatente(String patente) { this.patente = patente; }
-    
-    public Viaje getViaje() { return viaje; }
-    public void setViaje(Viaje  viaje) { this.viaje = viaje; }
+
+    public List<Viaje> getViajes() { return viajes; }
+    public void setViajes(List<Viaje> viajes) { this.viajes = viajes; }
 
     public Conductor getConductor() { return conductor; }
     public void setConductor(Conductor conductor) { this.conductor = conductor; }
-    
 }
