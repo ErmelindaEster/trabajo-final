@@ -1,13 +1,17 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Conductor;
 import com.example.demo.model.Vehiculo;
 import com.example.demo.service.VehiculoService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller; // CAMBIADO a @Controller
 import org.springframework.ui.Model; // IMPORTADO para pasar datos a la vista
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.example.demo.service.ConductorService;
 
 import java.util.List;
 //import java.util.Optional; // Necesario para la búsqueda por ID
@@ -29,6 +33,7 @@ public class VehiculoController {
 
     // 1. Mostrar la lista de vehiculo en verdadero (READ ALL - Vista Principal)
     // GET /vehiculo/
+
     @GetMapping("/listarVehiculo")
     public String listarVehiculoActivos(Model model) {
         // Obtenemos solo los vehiculo activos
@@ -43,23 +48,39 @@ public class VehiculoController {
 
     // 2. Mostrar el formulario para registrar un nuevo vehiculo
     // GET /vehiculo/nuevo
-    @GetMapping("/nuevoVehiculo")
-    public String mostrarFormularioRegistroVehiculo(Model model) {
-        // Agregamos un objeto Vehiculo vacío para que el formulario pueda llenarlo
-        model.addAttribute("vehiculo", new Vehiculo());
-        return "formularioVehiculo"; // Vista HTML del formulario
-    }
+@Autowired
+private ConductorService conductorService;
+// NUEVO VEHÍCULO
+@GetMapping("/nuevoVehiculo")
+public String mostrarFormularioVehiculo(Model model) {
+    model.addAttribute("vehiculo", new Vehiculo());
+
+    // Lista de conductores activos (o todos)
+    List<Conductor> conductores = conductorService.obtenerTodosConductorActivos(); 
+    model.addAttribute("conductores", conductores);
+
+    return "formularioVehiculo";
+}
+
 
     // 3. Guardar nuevo vehiculo (CREATE)
     // POST /vehiculo/guardar
-    @PostMapping("/guardarVehiculo")
-    public String guardarVehiculo(@ModelAttribute Vehiculo vehiculo) {
-        // El servicio guarda el objeto enviado desde el formulario
-        vehiculoService.guardarVehiculo(vehiculo);
+@PostMapping("/guardarVehiculo")
+public String guardarVehiculo(@ModelAttribute Vehiculo vehiculo,
+                              @RequestParam(required = false, name = "conductorIdSeleccionado") Integer conductorIdSeleccionado) {
 
-        // Redirige al usuario a la lista principal después de guardar
-        return "redirect:/listarVehiculo";
+    if (conductorIdSeleccionado != null) {
+        Conductor conductor = conductorService.obtenerConductorPorId(conductorIdSeleccionado)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Conductor no encontrado"));
+
+        vehiculo.setConductor(conductor); // acá se guarda el objeto, pero en BD solo va el ID (FK)
     }
+
+    vehiculoService.guardarVehiculo(vehiculo);
+    return "redirect:/listarVehiculo";
+}
+
 
     // 4. VER DETALLE DEL VEHICULO (READ By ID) - MÁS CONCISO
     // GET /detalleVehiculo/{id}
@@ -96,27 +117,23 @@ public class VehiculoController {
 
     // EDITAR VEHICULO (UPDATE) // GET /editarVehiculo/{id}
 
+// EDITAR VEHÍCULO
+@GetMapping("/editarVehiculo/{id}")
+public String editarVehiculo(@PathVariable Integer id, Model model) {
 
-
-
-
-    // 6. MOSTRAR FORMULARIO PARA EDITAR (UPDATE - GET)
-    // GET /editarVehiculo/{id}
-    @GetMapping("/editarVehiculo/{id}")
-    public String mostrarFormularioEdicion(@PathVariable("id") Integer id, Model model) {
-        // 1. Obtener el vehiculo por ID, lanzando 404 si no existe
     Vehiculo vehiculo = vehiculoService.obtenerVehiculoPorId(id)
-            .orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehiculo no encontrado para editar con ID: " + id));
-    
-    // 2. Agregar el vehiculo encontrado al modelo
-    model.addAttribute("vehiculo", vehiculo);
-        // 2. Agregar el vehiculo encontrado al modelo
-        model.addAttribute("vehiculo", vehiculo);
+            .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Vehículo no encontrado"));
 
-        // 3. Reutilizar la vista del formulario (que ya está preparada para edición)
-        return "formularioVehiculo";
-    }
+    model.addAttribute("vehiculo", vehiculo);
+
+    List<Conductor> conductores = conductorService.obtenerTodosConductorActivos();
+    model.addAttribute("conductores", conductores);
+
+    return "formularioVehiculo";
+}
+
+    
 
     // 7. PROCESAR ACTUALIZACIÓN (UPDATE - POST)
     // POST /actualizarVehiculo/{id}

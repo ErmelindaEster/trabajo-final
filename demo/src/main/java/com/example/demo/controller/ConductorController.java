@@ -30,8 +30,8 @@ public class ConductorController {
 
     // 1. Mostrar la lista de conductor en verdadero (READ ALL - Vista Principal)
     // GET /conductor/
-    @GetMapping("/listarconductor")
-    public String listarconductorActivos(Model model) {
+    @GetMapping("/listarConductor")
+    public String listarConductorActivos(Model model) {
         // Obtenemos solo los vehiculo activos
         List<Conductor> conductores = conductorService.obtenerTodosConductorActivos();
 
@@ -44,7 +44,7 @@ public class ConductorController {
 
     // 2. Mostrar el formulario para registrar un nuevo conductor
     // GET /conductor/nuevo
-    @GetMapping("/nuevoconductor")
+    @GetMapping("/nuevoConductor")
     public String mostrarFormularioRegistroConductor(Model model) {
         // Agregamos un objeto conductor vacío para que el formulario pueda llenarlo
         model.addAttribute("conductor", new Conductor());
@@ -59,7 +59,7 @@ public class ConductorController {
         conductorService.guardarConductor(conductor);
 
         // Redirige al usuario a la lista principal después de guardar
-        return "redirect:/listarconductor";
+        return "redirect:/listarConductor";
     }
 
     // 4. VER DETALLE DEL CONDUCTOR (READ By ID) - MÁS CONCISO

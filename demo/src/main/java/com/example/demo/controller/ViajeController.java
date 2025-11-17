@@ -1,14 +1,20 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Usuario;
+import com.example.demo.model.Vehiculo;
 import com.example.demo.model.Viaje;
 import com.example.demo.service.ViajeService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller; // CAMBIADO a @Controller
 import org.springframework.ui.Model; // IMPORTADO para pasar datos a la vista
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.demo.service.ConductorService;
+import com.example.demo.service.UsuarioService;
+import com.example.demo.service.VehiculoService;
 import java.util.List;
 //import java.util.Optional; // Necesario para la búsqueda por ID
 
@@ -18,7 +24,9 @@ import java.util.List;
 
 public class ViajeController {
 
-    private final ViajeService viajeService;
+
+    @Autowired
+    private ViajeService viajeService;
 
     // Inyección de Dependencias por Constructor (Java 17 style)
     public ViajeController(ViajeService viajeService) {
@@ -43,15 +51,53 @@ public class ViajeController {
 
     // 2. Mostrar el formulario para registrar un nuevo viaje
     // GET /viaje/nuevo
-    @GetMapping("/nuevoViaje")
-    public String mostrarFormularioRegistroViaje(Model model) {
-        // Agregamos un objeto Viaje vacío para que el formulario pueda llenarlo
+@GetMapping("/nuevoViaje")
+    public String mostrarFormularioNuevoViaje(Model model) {
+
         model.addAttribute("viaje", new Viaje());
-        return "formularioViaje"; // Vista HTML del formulario
+
+        // IMPORTANTÍSIMO: cargar listas para los acordeones
+        List<Usuario> usuarios = usuarioService.obtenerTodosUsuariosActivos();
+        List<Vehiculo> vehiculos = vehiculoService.obtenerTodosVehiculoActivos();
+
+        model.addAttribute("usuarios", usuarios);
+        model.addAttribute("vehiculos", vehiculos);
+
+        return "formularioViaje";
     }
+
+
 
     // 3. Guardar nuevo viaje (CREATE)
     // POST /viaje/guardar
+@Autowired
+private UsuarioService usuarioService;
+@Autowired
+private VehiculoService vehiculoService;
+
+@PostMapping("/guardarVije")
+public String guardarVije(@ModelAttribute Viaje viaje,
+                          @RequestParam(required = false, name = "usuarioIdSeleccionado") Integer usuarioIdSeleccionado,
+                          @RequestParam(required = false, name = "vehiculoIdSeleccionado") Integer vehiculoIdSeleccionado) {
+
+    if (usuarioIdSeleccionado != null) {
+        Usuario usuario = usuarioService.obtenerUsuarioPorId(usuarioIdSeleccionado)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+        viaje.setUsuario(usuario);
+    }
+
+    if (vehiculoIdSeleccionado != null) {
+        Vehiculo vehiculo = vehiculoService.obtenerVehiculoPorId(vehiculoIdSeleccionado)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Vehículo no encontrado"));
+        viaje.setVehiculo(vehiculo);
+    }
+
+    viajeService.guardarViaje(viaje);
+    return "redirect:/listarViaje";
+}
+
     @PostMapping("/guardarViaje")
     public String guardarViaje(@ModelAttribute Viaje viaje) {
         // El servicio guarda el objeto enviado desde el formulario
@@ -98,22 +144,26 @@ public class ViajeController {
 
     // 6. MOSTRAR FORMULARIO PARA EDITAR (UPDATE - GET)
     // GET /editarViaje/{id}
-    @GetMapping("/editarViaje/{id}")
-    public String mostrarFormularioEdicion(@PathVariable("id") Integer id, Model model) {
-        // 1. Obtener el viaje por ID, lanzando 404 si no existe
-    Viaje viaje = viajeService.obtenerViajePorId(id)
-            .orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Viaje no encontrado para editar con ID: " + id));
-    
-    // 2. Agregar el viaje encontrado al modelo
-    model.addAttribute("viaje", viaje );
-        // 2. Agregar el viaje encontrado al modelo
+
+@GetMapping("/editarViaje/{id}")
+    public String mostrarFormularioEditarViaje(@PathVariable Integer id, Model model) {
+
+        Viaje viaje = viajeService.obtenerViajePorId(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Viaje no encontrado"));
+
         model.addAttribute("viaje", viaje);
 
-        // 3. Reutilizar la vista del formulario (que ya está preparada para edición)
+        List<Usuario> usuarios = usuarioService.obtenerTodosUsuariosActivos();
+        List<Vehiculo> vehiculos = vehiculoService.obtenerTodosVehiculoActivos();
+
+        model.addAttribute("usuarios", usuarios);
+        model.addAttribute("vehiculos", vehiculos);
+
         return "formularioViaje";
     }
 
+    
     // 7. PROCESAR ACTUALIZACIÓN (UPDATE - POST)
     // POST /actualizarViaje/{id}
     @PostMapping("/actualizarViaje/{id}")
